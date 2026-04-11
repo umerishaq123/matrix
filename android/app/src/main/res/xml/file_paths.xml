@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Access to cached images -->
+    <cache-path
+        name="cache"
+        path="." />
+
+    <!-- Access to external storage -->
+    <external-path
+        name="external"
+        path="." />
+
+    <!-- Access to app-specific external storage -->
+    <external-files-path
+        name="external_files"
+        path="." />
+
+    <!-- Access to internal storage -->
+    <files-path
+        name="files"
+        path="." />
+        
+
+
+
+</paths>

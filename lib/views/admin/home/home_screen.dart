@@ -7,6 +7,9 @@ import 'package:matrix/core/constants/colors.dart';
 import 'package:matrix/models/admin/annoucement_model.dart';
 import 'package:matrix/models/admin/overall_model.dart';
 import 'package:matrix/models/admin/parents_meatings_model.dart';
+import 'package:matrix/views/admin/add_annoucement_screen.dart';
+import 'package:matrix/views/admin/home/add_date_sheat_timetable.dart';
+import 'package:matrix/views/student/create_student.dart';
 import 'package:matrix/views/teacher/create_teacher.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -136,7 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(width: 10),
                   Expanded(
-                    child: quickActionWidget(Icons.person, "Add Student"),
+                    child: GestureDetector(
+                      onTap: (){
+                        Get.to(CreateStudent());
+                      },
+                      child: quickActionWidget(Icons.person, "Add Student")),
                   ),
                 ],
               ),
@@ -144,13 +151,22 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: quickActionWidget(Icons.campaign, "Add Annoucement"),
+                    child: GestureDetector(
+                      onTap: (){
+                        Get.to(AddAnnoucementScreen());
+                      },
+                      child: quickActionWidget(Icons.campaign, "Add Annoucement")),
                   ),
                   SizedBox(width: 10),
                   Expanded(
-                    child: quickActionWidget(
-                      Icons.calendar_month_outlined,
-                      "Add date sheat/Time Table",
+                    child: GestureDetector(
+                      onTap: (){
+                        Get.to(AddDateSheatTimeTableScreen());
+                      },
+                      child: quickActionWidget(
+                        Icons.calendar_month_outlined,
+                        "Add date sheat/Time Table",
+                      ),
                     ),
                   ),
                 ],

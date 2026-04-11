@@ -5,6 +5,7 @@ import 'package:matrix/splash_screen.dart';
 import 'package:matrix/views/authentications/signup_screen.dart';
 
 void main() {
+    WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

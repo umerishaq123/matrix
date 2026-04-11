@@ -7,29 +7,42 @@ import 'package:matrix/core/widgets/custom_button_widget.dart';
 import 'package:matrix/core/widgets/custom_drop_down_widget.dart';
 import 'package:matrix/core/widgets/custom_text_form_field_widget.dart';
 
-class CreateTeacher extends StatefulWidget {
-  const CreateTeacher({super.key});
+class CreateStudent extends StatefulWidget {
+  const CreateStudent({super.key});
 
   @override
-  State<CreateTeacher> createState() => _CreateTeacherState();
+  State<CreateStudent> createState() => _CreateStudentState();
 }
 
-class _CreateTeacherState extends State<CreateTeacher> {
+class _CreateStudentState extends State<CreateStudent> {
   TextEditingController _fullName = TextEditingController();
-  TextEditingController _phoneNumber = TextEditingController();
+  TextEditingController _admissionNumber = TextEditingController();
   TextEditingController _teacherEmail = TextEditingController();
   TextEditingController _passwordController=TextEditingController();
+    TextEditingController _rollNumber=TextEditingController();
 
   String? selectedGender;
   String? selctedClass;
   String? selectedSubject;
   String? selectedRole;
+  String? selctedSection;
+  String? selectedParent;
 
   //controller
   CreateTeacherController _createTeacherController =
       Get.isRegistered<CreateTeacherController>()
       ? Get.find()
       : Get.put(CreateTeacherController());
+
+
+
+      List<String>  parentsList=[
+        "Ishaq",
+        "Istiaq",
+        "M.ishfaq",
+        "M.ahsan",
+        "M.sher khan"
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +76,9 @@ class _CreateTeacherState extends State<CreateTeacher> {
                   ),
                   SizedBox(height: 10.h),
                   CustomTextFieldWidget(
-                    controller: _phoneNumber,
-                    name: "Phone_number",
-                    hintText: "Enter a phone number",
+                    controller: _admissionNumber,
+                    name: "Admission number",
+                    hintText: "Enter a Admission number",
                     inputType: TextInputType.number,
                   ),
                       SizedBox(height: 10.h),
@@ -106,6 +119,41 @@ class _CreateTeacherState extends State<CreateTeacher> {
                     name: 'Select role',
                     labelBuilder: (item) => item, // <-- return the string itself
                     menuItems: ["Teacher","Student"],
+                  ),
+                   SizedBox(height: 10.h),
+                 
+                  CustomDropdownWidgetWithModel<String>(
+                    onSelected: (value) {
+                      return setState(() {
+                        selctedSection = value;
+                      });
+                    },
+                    defaultOption: "Select Section",
+                    width: double.infinity,
+                    name: 'Select section',
+                    labelBuilder: (item) => item, // <-- return the string itself
+                    menuItems: ["A","B","C","D","E"],
+                  ),
+                       SizedBox(height: 10.h),
+                   CustomDropdownWidgetWithModel<String>(
+                   enabled: true,
+                    onSelected: (value) {
+                      return setState(() {
+                        selectedParent = value;
+                      });
+                    },
+                    defaultOption: "Select Parent",
+                    width: double.infinity,
+                    name: 'Select Parent',
+                    labelBuilder: (item) => item, // <-- return the string itself
+                    menuItems: parentsList,
+                  ),
+                   SizedBox(height: 10.h),
+                  CustomTextFieldWidget(
+                    controller: _rollNumber,
+                    name: "Roll number",
+                    hintText: "Enter a Roll number",
+                    inputType: TextInputType.number,
                   ),
                    SizedBox(height: 10.h),
                   CustomTextFieldWidget(
@@ -174,7 +222,7 @@ class _CreateTeacherState extends State<CreateTeacher> {
           ),
           const SizedBox(height: 12),
           const Text(
-            'Create Teacher',
+            'Create Student',
             style: TextStyle(
               color: secondaryColor,
               fontSize: 22,
@@ -183,7 +231,7 @@ class _CreateTeacherState extends State<CreateTeacher> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Enter your new password to secure your account.',
+            'Every student added today is a step toward a \n brighter tomorrow.',
             style: TextStyle(
               color: secondaryColor.withOpacity(0.7),
               fontSize: 13,
@@ -193,4 +241,7 @@ class _CreateTeacherState extends State<CreateTeacher> {
       ),
     );
   }
+
+
+
 }
