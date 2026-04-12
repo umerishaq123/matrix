@@ -21,8 +21,7 @@ class AddDateSheatTimeTableScreen extends StatefulWidget {
 
 class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScreen> {
   TextEditingController _titleController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _description = TextEditingController();
+
 
   String? selectedAnnoucementType = "Pdf";
 
@@ -35,9 +34,8 @@ class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScree
   @override
   void dispose() {
     _titleController.dispose();
-    _descriptionController.dispose();
-    _description.dispose();
-    _controller.clearImage();
+  
+    _controller.clearTimeTableDatesheatImage();
     // TODO: implement dispose
     super.dispose();
   }
@@ -67,8 +65,8 @@ class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScree
                     onSelected: (value) {
                       return setState(() {
                         selectedAnnoucementType = value;
-                        _controller.clearImage();
-                        _controller.clearPdf();
+                        _controller.clearTimeTableDatesheatImage();
+                        _controller.clearTimeTableDatesheatPdf();
                       });
                     },
                     defaultOption: "Select Annoucement type",
@@ -79,14 +77,7 @@ class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScree
                     menuItems: [ "Image", "pdf"],
                   ),
                   SizedBox(height: 10.h),
-                  selectedAnnoucementType == "Text"
-                      ? CustomTextFieldWidget(
-                          controller: _description,
-                          name: "Description",
-                          hintText: "Enter a Annoucement Description",
-                          maxlines: 10,
-                        )
-                      : pickAnnouncementWidget(_controller),
+              pickTimeTableWidget(_controller),
 
                   SizedBox(height: 20.h),
                   CustomButtonWidget(
@@ -132,7 +123,7 @@ class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScree
                   color: Colors.white.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(18),
                 ),
-                child: Icon(Icons.campaign, color: secondaryColor, size: 30),
+                child: Icon( Icons.calendar_month_outlined, color: secondaryColor, size: 30),
               ),
             ],
           ),
@@ -166,7 +157,7 @@ class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScree
     );
   }
 
-  Widget pickAnnouncementWidget(AddAnnouncementController controller) {
+  Widget pickTimeTableWidget(AddAnnouncementController controller) {
     return Obx(() {
       return Container(
         width: double.infinity,
@@ -183,13 +174,13 @@ class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScree
 
   Widget _buildAnnouncementContent(AddAnnouncementController controller) {
     // If an image is selected
-    if (controller.selectedAnnoucementImage.value != null) {
+    if (controller.selectedTimeTabledatesheatImage.value != null) {
       return Stack(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(15.r),
             child: Image.file(
-              controller.selectedAnnoucementImage.value!,
+              controller.selectedTimeTabledatesheatImage.value!,
               width: double.infinity,
               height: double.infinity,
               fit: BoxFit.cover,
@@ -199,7 +190,7 @@ class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScree
             top: 5,
             right: 5,
             child: GestureDetector(
-              onTap: controller.clearImage,
+              onTap: controller.clearTimeTableDatesheatImage,
               child: Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
@@ -215,7 +206,7 @@ class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScree
     }
 
     // If a PDF is selected
-    if (controller.selectedAnnoucementPdf.value != null) {
+    if (controller.selectedTimeTabledatesheatPdf.value != null) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -224,14 +215,14 @@ class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScree
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              controller.selectedAnnoucmentPdfName.value,
+              controller.selectedTimeTabledatesheatPdfName.value,
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           TextButton(
-            onPressed: controller.clearPdf,
+            onPressed: controller.clearTimeTableDatesheatPdf,
             child: const Text("Remove PDF"),
           ),
         ],
@@ -246,9 +237,9 @@ class _AddDateSheatTimeTableScreenState extends State<AddDateSheatTimeTableScree
           GestureDetector(
             onTap: () {
               if (selectedAnnoucementType == "Image") {
-                controller.pickImageFromGallery();
+                controller.pickTimetableDatesheatImageFromGallery();
               } else {
-                controller.pickPdf();
+                controller.pickTimetableDatesheatPdf();
               }
             },
             child: const Icon(Icons.upload_file, size: 40),

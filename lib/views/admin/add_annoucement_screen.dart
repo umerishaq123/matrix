@@ -246,9 +246,9 @@ class _AddAnnoucementScreenState extends State<AddAnnoucementScreen> {
           GestureDetector(
             onTap: () {
               if (selectedAnnoucementType == "Image") {
-                controller.pickImageFromGallery();
+                controller.pickAnnoucementImageFromGallery();
               } else {
-                controller.pickPdf();
+                controller.pickAnnoucementPdf();
               }
             },
             child: const Icon(Icons.upload_file, size: 40),
