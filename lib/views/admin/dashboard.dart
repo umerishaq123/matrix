@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:matrix/controlllers/admin/bottom_nav_bar_controller.dart';
@@ -50,12 +51,12 @@ class AppDashboard extends StatelessWidget {
       shape: const CircleBorder(),
       child: Icon(
         Icons.dashboard,
-        color: controller.currentIndex.value == 2
+        color: controller.currentIndex.value == 1
             ? lightGreenColor // When index 2 is selected
             : secondaryColor, // Otherwise
       ),
       onPressed: () {
-        controller.changeTab(2);
+        controller.changeTab(1);
       },
 ))
           ),
@@ -67,61 +68,65 @@ class AppDashboard extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         height: MediaQuery.of(context).size.height / 11.5,
         color: primaryColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            /// LEFT SIDE
-            Row(
-              children: [
-                navItem(
-                  context,
-                  icon: Icons.school,
-                  // iconPath: AppConstantsIconPath.jobIconPath,
-                  label: "Teacher",
-                  index: 0,
-                  onTap: () {
-                    controller.changeTab(0);
-                  },
-                ),
-                navItem(
-                  context,
-                  icon: Icons.assignment_add,
-                  label: "Students",
-                  index: 1,
-                  onTap: () {
-                    controller.changeTab(1);
-                  },
-                ),
-                SizedBox(width: 2,)
-              ],
-            ),
-
-            /// RIGHT SIDE
-            Row(
-            
-              children: [
-               
-                navItem(
-                  context,
-                   icon: Icons.menu_book,
-                  label: "Academics",
-                  index: 3,
-                  onTap: () {
-                    controller.changeTab(3);
-                  },
-                ),
-                navItem(
-                  context,
-                  icon: Icons.person,
-                  label: "Profile",
-                  index: 4,
-                  onTap: () {
-                    controller.changeTab(4);
-                  },
-                ),
-              ],
-            ),
-          ],
+        child: Padding(
+          padding:  EdgeInsets.symmetric(horizontal: 20.sp),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              /// LEFT SIDE
+              Row(
+                children: [
+                  navItem(
+                    context,
+                    icon: Icons.school,
+                    // iconPath: AppConstantsIconPath.jobIconPath,
+                    label: "Teacher",
+                    index: 0,
+                    onTap: () {
+                      controller.changeTab(0);
+                    },
+                  ),
+                
+                
+                ],
+              ),
+          
+              /// RIGHT SIDE
+              Row(
+              
+                children: [
+                 
+            //       navItem(
+            //         context,
+            //          icon: Icons.menu_book,
+            //         label: "Academics",
+            //         index: 3,
+            //         onTap: () {
+            //           controller.changeTab(3);
+            //         },
+            //       ),
+            //       navItem(
+            //         context,
+            //         icon: Icons.person,
+            //         label: "Profile",
+            //         index: 4,
+            //         onTap: () {
+            //           controller.changeTab(4);
+            //         },
+            //       ),
+              navItem(
+                    context,
+                    icon: Icons.assignment_add,
+                    label: "Students",
+                    index: 2,
+                    onTap: () {
+                      controller.changeTab(2);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

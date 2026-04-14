@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:matrix/core/constants/colors.dart';
 import 'package:matrix/models/admin/student_admin_model.dart';
 import 'package:matrix/views/admin/students/widgets/student_section_grid_widget.dart';
+import 'package:matrix/views/student/create_student.dart';
 
 class StudentAdmin extends StatefulWidget {
   const StudentAdmin({super.key});
@@ -16,6 +19,7 @@ class _StudentAdminState extends State<StudentAdmin>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final List<int> _classes = [9, 10, 11, 12];
+  final List<Color> listColors = [kAmber, kBlue, kCard, kCoral, kGreen];
 
   final List<StudentAdminModel> studentData = [
     StudentAdminModel(
@@ -24,6 +28,13 @@ class _StudentAdminState extends State<StudentAdmin>
       className: "9",
       section: "Iris",
       rollNum: "01",
+    ),
+    StudentAdminModel(
+      name: "malik qasim",
+      gender: "male",
+      className: "10",
+      section: "Daisy",
+      rollNum: "02",
     ),
     StudentAdminModel(
       name: "malik qasim",
@@ -64,6 +75,16 @@ class _StudentAdminState extends State<StudentAdmin>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: secondaryColor,
+         floatingActionButton: FloatingActionButton(
+        backgroundColor: blueColor,
+        elevation: 4,
+        onPressed: () {
+          Get.to(CreateStudent());
+        },
+        child: const Icon(Icons.add, color: whiteColor),
+      ),
+     
+     
       body: Column(
         children: [
           _buildHeader(),
@@ -71,10 +92,11 @@ class _StudentAdminState extends State<StudentAdmin>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: studentData
+              children: _classes
                   .map(
                     (cls) => SectionStudentGridPage(
-                      classNumber: int.parse(cls.className ?? ''),
+                      classNumber: cls,
+                      studentdata: studentData,
                     ),
                   )
                   .toList(),

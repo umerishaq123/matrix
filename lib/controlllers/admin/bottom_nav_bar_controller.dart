@@ -15,10 +15,11 @@ class BottomNavController extends GetxController {
 
   final List<Widget> screens = [
     TeachersAdmin(),
-    StudentAdmin(),
+   
     HomeScreen(),
-    Academics(),
-    Profile(),
+     StudentAdmin(),
+    // Academics(),
+    // Profile(),
  
   ];
 

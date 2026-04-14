@@ -2,19 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matrix/core/constants/colors.dart';
+import 'package:matrix/models/admin/student_admin_model.dart';
 import 'package:matrix/models/admin/teachers_admin_model.dart';
+import 'package:matrix/views/admin/students/student_list.dart';
+import 'package:matrix/views/admin/students/widgets/section_card_for_student.dart';
 import 'package:matrix/views/admin/teachers/teacher_list.dart';
 import 'package:matrix/views/admin/teachers/widgets/section_card_widget.dart';
 import 'package:matrix/views/admin/teachers/widgets/section_theme.dart';
 
 class SectionStudentGridPage extends StatelessWidget {
   final int classNumber;
-  const SectionStudentGridPage({super.key, required this.classNumber});
+  final List<StudentAdminModel> studentdata;
+  const SectionStudentGridPage({
+    super.key,
+    required this.classNumber,
+    required this.studentdata,
+  });
 
   @override
   Widget build(BuildContext context) {
     final sections = ['Iris', 'Daisy', 'Jasmine', 'Aster'];
-    final classData = schoolData[classNumber]!;
+    // final classData = schoolData[classNumber]!;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -54,29 +62,32 @@ class SectionStudentGridPage extends StatelessWidget {
             mainAxisSpacing: 10,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            children: sections.map((sec) {
+            children: List.generate(sections.length, (index) {
+              final sec = sections[index];
               final theme = sectionThemes[sec]!;
-              final data = classData[sec]!;
-              return SectionCard(
+              final data = studentdata[index];
+
+              return SectionStudentCard(
                 section: sec,
                 theme: theme,
-                teacherCount: data.teachers.length,
-                studentCount: data.students,
+                teacherCount: 2,
+                studentCount: 4,
                 onTap: () {
-                  Navigator.push(
+
+                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => TeacherListPage(
+                      builder: (_) => StudentListAdmin(
                         classNumber: classNumber,
                         section: sec,
-                        sectionData: data,
+                        sectionData: studentdata,
                         theme: theme,
                       ),
                     ),
                   );
                 },
               );
-            }).toList(),
+            }),
           ),
         ],
       ),

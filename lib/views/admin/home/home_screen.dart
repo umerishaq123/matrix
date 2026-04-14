@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:matrix/core/constants/app_sizes.dart';
 import 'package:matrix/core/constants/colors.dart';
+import 'package:matrix/core/constants/images.dart';
 import 'package:matrix/models/admin/annoucement_model.dart';
 import 'package:matrix/models/admin/overall_model.dart';
 import 'package:matrix/models/admin/parents_meatings_model.dart';
 import 'package:matrix/views/admin/add_annoucement_screen.dart';
+import 'package:matrix/views/admin/drawer.dart';
 import 'package:matrix/views/admin/home/add_date_sheat_timetable.dart';
 import 'package:matrix/views/student/create_student.dart';
 import 'package:matrix/views/teacher/create_teacher.dart';
@@ -62,10 +64,14 @@ class _HomeScreenState extends State<HomeScreen> {
       "Strudent week",
     ),
   ];
+    final GlobalKey<ScaffoldState> _scaffoldKey =
+      GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+         key: _scaffoldKey,
+      drawer: CustomDrawer(),
       backgroundColor: secondaryColor,
       body: SingleChildScrollView(
         child: Padding(
@@ -77,43 +83,49 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: .start,
             crossAxisAlignment: .start,
             children: [
-              Row(
-                mainAxisAlignment: .spaceBetween,
+              Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: .start,
-                    mainAxisAlignment: .start,
-                    mainAxisSize: .min,
+                  Row(
+                    mainAxisAlignment: .spaceBetween,
                     children: [
-                      Text(
-                        "Good Morning 👋",
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w600,
+                      GestureDetector(
+                        onTap: (){
+                        _scaffoldKey.currentState?.openDrawer();
+                        },
+                        child: Icon(Icons.menu)),
+                      Container(
+                        width: 38,
+                        height: 38,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            colors: [Color(0xFFFFD166), Color(0xFFFF6B6B)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                         ),
-                      ),
-
-                      Text(
-                        "Dashboard",
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 22.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        child: Image.asset(applogo),
                       ),
                     ],
                   ),
-                  Container(
-                    width: 45,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: blackColor.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: blackColor.withOpacity(0.6)),
+                  Center(
+                    child: Text(
+                      "Good Morning 👋",
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    child: Icon(
-                      Icons.notifications_active,
-                      color: blackColor,
-                      size: AppSize.iconSizeMedium(context),
+                  ),
+
+                  Center(
+                    child: Text(
+                      "Dashboard",
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -132,18 +144,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.to(CreateTeacher());
                       },
-                      child: quickActionWidget(Icons.school, "Add Teacher")),
+                      child: quickActionWidget(Icons.school, "Add Teacher"),
+                    ),
                   ),
                   SizedBox(width: 10),
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.to(CreateStudent());
                       },
-                      child: quickActionWidget(Icons.person, "Add Student")),
+                      child: quickActionWidget(Icons.person, "Add Student"),
+                    ),
                   ),
                 ],
               ),
@@ -152,15 +166,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.to(AddAnnoucementScreen());
                       },
-                      child: quickActionWidget(Icons.campaign, "Add Annoucement")),
+                      child: quickActionWidget(
+                        Icons.campaign,
+                        "Add Annoucement",
+                      ),
+                    ),
                   ),
                   SizedBox(width: 10),
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.to(AddDateSheatTimeTableScreen());
                       },
                       child: quickActionWidget(

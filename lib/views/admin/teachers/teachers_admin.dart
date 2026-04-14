@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/route_manager.dart';
+import 'package:get/state_manager.dart';
 import 'package:matrix/core/constants/colors.dart';
 import 'package:matrix/views/admin/teachers/widgets/teacher_section_grid_widget.dart';
+import 'package:matrix/views/teacher/create_teacher.dart';
 
 class TeachersAdmin extends StatefulWidget {
   const TeachersAdmin({super.key});
@@ -32,14 +35,17 @@ class _TeachersAdminState extends State<TeachersAdmin>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: secondaryColor,
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: blueColor,
-      //   elevation: 4,
-      //   onPressed: () {
-      //     // _showAddSectionDialog(context);
-      //   },
-      //   child: const Icon(Icons.add, color: whiteColor),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: blueColor,
+        elevation: 4,
+        onPressed: () {
+          Get.to(CreateTeacher());
+        },
+        child: const Icon(Icons.add, color: whiteColor),
+      ),
+     
+     
+     
       body: Column(
         children: [
           _buildHeader(),
