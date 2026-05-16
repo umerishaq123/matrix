@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:matrix/core/constants/app_sizes.dart';
 import 'package:matrix/core/constants/colors.dart';
-import 'package:matrix/core/constants/enum_type.dart';
+import 'package:matrix/core/constants/enums/enum_type.dart';
+import 'package:matrix/core/constants/enums/role_enum_type.dart';
+import 'package:matrix/core/shared_preferences.dart';
 import 'package:matrix/core/widgets/custom_button_widget.dart';
 import 'package:matrix/core/widgets/custom_drop_down_widget.dart';
 import 'package:matrix/core/widgets/custom_snackbar.dart';
@@ -13,6 +15,7 @@ import 'package:matrix/core/widgets/custom_text_form_field_widget.dart';
 import 'package:matrix/core/widgets/email_validation.dart';
 import 'package:matrix/views/admin/dashboard.dart';
 import 'package:matrix/views/authentications/forgot_password_screen.dart';
+import 'package:matrix/views/teacher/bottom_nav_bar_teacher.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -301,7 +304,16 @@ class _SignupScreenState extends State<SignupScreen> {
               onSelected: (value) {
                 return setState(() {
                   selectedRole = value;
-                  print("::::selected value:${selectedRole}");
+
+                  // Convert String to Enum
+                  RoleEnumType roleEnum = RoleEnumType.values.firstWhere(
+                    (e) => e.name == value,
+                    orElse: () => RoleEnumType.admin,
+                  );
+
+                  AppPreferences.setRole(roleEnum);
+
+                  print("::::selected value: $selectedRole");
                 });
               },
               defaultOption: "Select role",
@@ -349,27 +361,44 @@ class _SignupScreenState extends State<SignupScreen> {
             CustomButtonWidget(
               color: primaryColor,
               title: "Sign In",
-              onTap: () {
-                if (_emailSignInController.text.isEmpty) {
-                  return showCustomSnackBar(
-                    context: context,
-                    message: "Email is required",
-                    status: StateType.failure,
-                  );
-                } else if (_passwordSignInController.text.isEmpty) {
-                  return showCustomSnackBar(
-                    context: context,
-                    message: emailValidation(_emailSignInController.text),
-                    status: StateType.failure,
-                  );
-                } else {
-                  Get.to(AppDashboard());
-                }
+           onTap: () async {
+  if (_emailSignInController.text.isEmpty) {
+    return showCustomSnackBar(
+      context: context,
+      message: "Email is required",
+      status: StateType.failure,
+    );
+  } else if (_passwordSignInController.text.isEmpty) {
+    return showCustomSnackBar(
+      context: context,
+      message: "Password is required",
+      status: StateType.failure,
+    );
+  } else {
+    final role = await AppPreferences.getRole();
 
-                // if (_formKeySignIn.currentState!.validate()) {
-                //   // Perform sign-in
-                // }
-              },
+    print("selected role is here: $role");
+    print("admin role: ${RoleEnumType.admin.name}");
+
+    if (role == RoleEnumType.admin) {
+      Get.to(() => AppDashboard());
+    } else if (role == RoleEnumType.teacher) {
+      Get.to(() => BottomNavBarTeacher());
+    } else if (role == RoleEnumType.parent) {
+      showCustomSnackBar(
+        context: context,
+        message: "Parent flow not implemented yet",
+        status: StateType.failure,
+      );
+    } else {
+      showCustomSnackBar(
+        context: context,
+        message: "Invalid user role",
+        status: StateType.failure,
+      );
+    }
+  }
+}
             ),
             SizedBox(height: 10),
             Center(

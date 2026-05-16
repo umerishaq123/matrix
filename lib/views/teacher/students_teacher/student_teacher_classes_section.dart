@@ -7,22 +7,22 @@ import 'package:matrix/core/constants/colors.dart';
 import 'package:matrix/models/admin/student_admin_model.dart';
 import 'package:matrix/views/admin/students/widgets/student_section_grid_widget.dart';
 import 'package:matrix/views/student/create_student.dart';
+import 'package:matrix/views/teacher/students_teacher/widgets/classes_section_grid_widget_teacher.dart';
 
-class StudentAdmin extends StatefulWidget {
-  const StudentAdmin({super.key});
+class StudentTeacherClassesSection extends StatefulWidget {
+  const StudentTeacherClassesSection({super.key});
 
   @override
-  State<StudentAdmin> createState() => _StudentAdminState();
+  State<StudentTeacherClassesSection> createState() => _StudentTeacherClassesSectionState();
 }
 
-class _StudentAdminState extends State<StudentAdmin>
+class _StudentTeacherClassesSectionState extends State<StudentTeacherClassesSection>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final List<int> _classes = [9, 10, 11, 12];
+  final List<int> _classes = [08,09, 10, 11, 12];
   final List<Color> listColors = [kAmber, kBlue, kCard, kCoral, kGreen];
 
-
-
+ 
   @override
   void initState() {
     super.initState();
@@ -58,7 +58,7 @@ class _StudentAdminState extends State<StudentAdmin>
               controller: _tabController,
               children: _classes
                   .map(
-                    (cls) => SectionStudentGridPage(
+                    (cls) => SectionStudentGridPageTeacher(
                       classNumber: cls,
                       studentdata: studentData,
                     ),

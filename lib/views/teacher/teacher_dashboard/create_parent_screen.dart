@@ -7,30 +7,42 @@ import 'package:matrix/core/widgets/custom_button_widget.dart';
 import 'package:matrix/core/widgets/custom_drop_down_widget.dart';
 import 'package:matrix/core/widgets/custom_text_form_field_widget.dart';
 
-class CreateTeacher extends StatefulWidget {
-  const CreateTeacher({super.key});
+class CreateParent extends StatefulWidget {
+  const CreateParent({super.key});
 
   @override
-  State<CreateTeacher> createState() => _CreateTeacherState();
+  State<CreateParent> createState() => _CreateParentState();
 }
 
-class _CreateTeacherState extends State<CreateTeacher> {
+class _CreateParentState extends State<CreateParent> {
   TextEditingController _fullName = TextEditingController();
-  TextEditingController _phoneNumber = TextEditingController();
+  TextEditingController _admissionNumber = TextEditingController();
   TextEditingController _teacherEmail = TextEditingController();
   TextEditingController _passwordController=TextEditingController();
+    TextEditingController _rollNumber=TextEditingController();
 
   String? selectedGender;
   String? selctedClass;
   String? selectedSubject;
   String? selectedRole;
-  String? selectedSection;
+  String? selctedSection;
+  String? selectedParent="Select";
 
   //controller
   CreateTeacherController _createTeacherController =
       Get.isRegistered<CreateTeacherController>()
       ? Get.find()
       : Get.put(CreateTeacherController());
+
+
+
+      List<String>  parentsList=[
+        "Ishaq",
+        "Istiaq",
+        "M.ishfaq",
+        "M.ahsan",
+        "M.sher khan"
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +75,7 @@ class _CreateTeacherState extends State<CreateTeacher> {
                     menuItems: ["Male", "Female", "other"],
                   ),
                   SizedBox(height: 10.h),
-                  CustomTextFieldWidget(
-                    controller: _phoneNumber,
-                    name: "Phone_number",
-                    hintText: "Enter a phone number",
-                    inputType: TextInputType.number,
-                  ),
-                      SizedBox(height: 10.h),
+               
                   CustomDropdownWidgetWithModel<String>(
                     onSelected: (value) {
                       return setState(() {
@@ -83,32 +89,8 @@ class _CreateTeacherState extends State<CreateTeacher> {
                     menuItems: ["9th", "10th", "1 year", "2 year"],
                   ),
                   SizedBox(height: 10.h),
-                         CustomDropdownWidgetWithModel<String>(
-                    onSelected: (value) {
-                      return setState(() {
-                        selectedSection = value;
-                      });
-                    },
-                    defaultOption: "Select section",
-                    width: double.infinity,
-                    name: 'Select Section',
-                    labelBuilder: (item) => item, // <-- return the string itself
-                    menuItems: ["Iris", "Daisy", "Jasmine", "Aster"],
-                  ),
-                  SizedBox(height: 10.h),
-                  CustomDropdownWidgetWithModel<String>(
-                    onSelected: (value) {
-                      return setState(() {
-                        selectedSubject = value;
-                      });
-                    },
-                    defaultOption: "Select subject",
-                    width: double.infinity,
-                    name: 'Select Subject',
-                    labelBuilder: (item) => item, // <-- return the string itself
-                    menuItems: _createTeacherController.subjects,
-                  ),
-                  SizedBox(height: 10.h),
+              
+               
                   CustomDropdownWidgetWithModel<String>(
                     onSelected: (value) {
                       return setState(() {
@@ -119,7 +101,44 @@ class _CreateTeacherState extends State<CreateTeacher> {
                     width: double.infinity,
                     name: 'Select role',
                     labelBuilder: (item) => item, // <-- return the string itself
-                    menuItems: ["Teacher","Student"],
+                    menuItems: ["Teacher","Student","Parent"],
+                  ),
+                   SizedBox(height: 10.h),
+                 
+                  CustomDropdownWidgetWithModel<String>(
+                    onSelected: (value) {
+                      return setState(() {
+                        selctedSection = value;
+                      });
+                    },
+                    defaultOption: "Select Section",
+                    width: double.infinity,
+                    name: 'Select section',
+                    labelBuilder: (item) => item, // <-- return the string itself
+                    menuItems: ["A","B","C","D","E"],
+                  ),
+                       SizedBox(height: 10.h),
+                   CustomDropdownWidgetWithModel<String>(
+                 
+               
+                    onSelected: (value) {
+                      return setState(() {
+                        selectedParent = value;
+                      });
+                    },
+                    defaultOption: "Select Student",
+                    width: double.infinity,
+                    name: 'Select Student',
+                    labelBuilder: (item) => item, // <-- return the string itself
+                    menuItems: parentsList??[],
+                  ),
+                  
+                   SizedBox(height: 10.h),
+                  CustomTextFieldWidget(
+                    controller: _rollNumber,
+                    name: "Roll number",
+                    hintText: "Enter a Roll number",
+                    inputType: TextInputType.number,
                   ),
                    SizedBox(height: 10.h),
                   CustomTextFieldWidget(
@@ -188,7 +207,7 @@ class _CreateTeacherState extends State<CreateTeacher> {
           ),
           const SizedBox(height: 12),
           const Text(
-            'Create Teacher',
+            'Create Parents',
             style: TextStyle(
               color: secondaryColor,
               fontSize: 22,
@@ -197,7 +216,7 @@ class _CreateTeacherState extends State<CreateTeacher> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Enter your new password to secure your account.',
+            'Every Parents added today is a step toward a \n brighter tomorrow.',
             style: TextStyle(
               color: secondaryColor.withOpacity(0.7),
               fontSize: 13,
@@ -207,4 +226,7 @@ class _CreateTeacherState extends State<CreateTeacher> {
       ),
     );
   }
+
+
+
 }

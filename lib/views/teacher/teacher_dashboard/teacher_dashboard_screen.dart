@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -14,21 +15,45 @@ import 'package:matrix/views/admin/drawer.dart';
 import 'package:matrix/views/admin/home/add_date_sheat_timetable.dart';
 import 'package:matrix/views/student/create_student.dart';
 import 'package:matrix/views/teacher/create_teacher.dart';
+import 'package:matrix/views/teacher/teacher_dashboard/create_parent_screen.dart';
+import 'package:matrix/views/teacher/teacher_dashboard/parents_meating_screen.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class TeacherDashboardScreen extends StatefulWidget {
+  const TeacherDashboardScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<TeacherDashboardScreen> createState() => _TeacherDashboardScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _TeacherDashboardScreenState extends State<TeacherDashboardScreen> {
   Map<String, OverallModel> overalldata = {
     "overalldata": OverallModel(726, 55, 500),
   };
-
+  final List<Map<String, dynamic>> attendanceData = [
+    {
+      "subject": "Computer Science",
+      "percentage": 84.0,
+      "totalClasses": 120,
+      "attendedClasses": 101,
+      "requiredPercentage": 75.0,
+    },
+    {
+      "subject": "Mathematics",
+      "percentage": 90.0,
+      "totalClasses": 100,
+      "attendedClasses": 90,
+      "requiredPercentage": 75.0,
+    },
+    {
+      "subject": "Physics",
+      "percentage": 78.0,
+      "totalClasses": 95,
+      "attendedClasses": 74,
+      "requiredPercentage": 75.0,
+    },
+  ];
   List<ParentsMeatingsModel> parentsMeetingList = [
     ParentsMeatingsModel(
       "12",
@@ -65,10 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
       "Strudent week",
     ),
   ];
-    final GlobalKey<ScaffoldState> _scaffoldKey =
-      GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-        final BottomNavController navController =
+  final BottomNavController navController =
       Get.isRegistered<BottomNavController>()
       ? Get.find<BottomNavController>()
       : Get.put(BottomNavController());
@@ -76,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-         key: _scaffoldKey,
+      key: _scaffoldKey,
       drawer: CustomDrawer(),
       backgroundColor: secondaryColor,
       body: SingleChildScrollView(
@@ -95,10 +119,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: .spaceBetween,
                     children: [
                       GestureDetector(
-                        onTap: (){
-                        _scaffoldKey.currentState?.openDrawer();
+                        onTap: () {
+                          _scaffoldKey.currentState?.openDrawer();
                         },
-                        child: Icon(Icons.menu)),
+                        child: Icon(Icons.menu),
+                      ),
                       Container(
                         width: 38,
                         height: 38,
@@ -151,18 +176,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Get.to(CreateTeacher());
+                        Get.to(CreateStudent());
                       },
-                      child: quickActionWidget(Icons.school, "Add Teacher"),
+                      child: quickActionWidget(Icons.person, "Add Student"),
                     ),
                   ),
                   SizedBox(width: 10),
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Get.to(CreateStudent());
+                        Get.to(CreateParent());
                       },
-                      child: quickActionWidget(Icons.person, "Add Student"),
+                      child: quickActionWidget(Icons.campaign, "Add Parent"),
                     ),
                   ),
                 ],
@@ -185,11 +210,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Get.to(AddDateSheatTimeTableScreen());
+                        Get.to(ParentsMeetingScreen());
                       },
                       child: quickActionWidget(
                         Icons.calendar_month_outlined,
-                        "Add date sheat/Time Table",
+                        "Add Parents' Meetings",
                       ),
                     ),
                   ),
@@ -207,36 +232,33 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 10.h),
               Row(
-                mainAxisAlignment: .spaceBetween,
+                mainAxisAlignment: .spaceAround,
                 children: [
                   overallDataWidget(
-                    
                     Icon(Icons.school, color: secondaryColor),
                     overalldata["overalldata"]!.teachers.toString(),
-                    "Teachers",
-                    (){
-                   navController.changeTab(0); // go to tab 0
-                  
-                    }
+                    "TimeTable",
+                    () {
+                      navController.changeTab(0); // go to tab 0
+                    },
                   ),
                   overallDataWidget(
                     Icon(Icons.group, color: secondaryColor),
                     overalldata["overalldata"]!.students.toString(),
                     "Students",
-                  (){
-                       navController.changeTab(2);
-                  } // go to tab 0
-                   
+                    () {
+                      navController.changeTab(2);
+                    }, // go to tab 0
                   ),
 
-                  overallDataWidget(
-                    Icon(Icons.family_restroom, color: secondaryColor),
-                    overalldata["overalldata"]!.parents.toString(),
-                    "Parents",
-                    (){
-                      
-                    }
-                  ),
+                  // overallDataWidget(
+                  //   Icon(Icons.family_restroom, color: secondaryColor),
+                  //   overalldata["overalldata"]!.parents.toString(),
+                  //   "Parents",
+                  //   (){
+
+                  //   }
+                  // ),
                 ],
               ),
               SizedBox(height: 15.h),
@@ -263,13 +285,24 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               SizedBox(height: 10.h),
-              attendanceWidget(
-                percentage: 84.0,
-                totalClasses: 120,
-                attendedClasses: 101,
-                subject: "Computer Science",
-                requiredPercentage: 75.0,
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 215.h,
+                  enlargeCenterPage: true,
+                  autoPlay: true,
+                  viewportFraction: 1.0,
+                ),
+                items: attendanceData.map((data) {
+                  return attendanceWidget(
+                    percentage: data["percentage"],
+                    totalClasses: data["totalClasses"],
+                    attendedClasses: data["attendedClasses"],
+                    subject: data["subject"],
+                    requiredPercentage: data["requiredPercentage"],
+                  );
+                }).toList(),
               ),
+
               SizedBox(height: 15.h),
               Row(
                 mainAxisAlignment: .spaceBetween,
@@ -348,7 +381,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget overallDataWidget(Icon icon, String count, String title,VoidCallback ontap) {
+  Widget overallDataWidget(
+    Icon icon,
+    String count,
+    String title,
+    VoidCallback ontap,
+  ) {
     return GestureDetector(
       onTap: ontap,
       child: Container(
@@ -384,7 +422,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: icon,
                 ),
-      
+
                 SizedBox(height: 10.h),
                 Text(
                   count,
@@ -404,7 +442,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-      
+
             // Top-right decorative element
             Positioned(
               top: -10,

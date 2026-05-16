@@ -194,6 +194,8 @@ class _StatCard extends StatelessWidget {
   }
 }
 
+
+
 /// ================= TEACHER CARD =================
 class _TeacherCard extends StatelessWidget {
   final Teacher teacher;

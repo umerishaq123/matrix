@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matrix/core/constants/colors.dart';
-import 'package:matrix/core/constants/enum_type.dart';
+import 'package:matrix/core/constants/enums/enum_type.dart';
 
 
 showCustomSnackBar({context, message, status}) {
