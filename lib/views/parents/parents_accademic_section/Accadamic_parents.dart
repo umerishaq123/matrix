@@ -2,22 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:matrix/core/constants/colors.dart';
-import 'package:matrix/views/teacher/accademic/create_assignment.dart';
-import 'package:matrix/views/teacher/accademic/create_notes_screen.dart';
 
-class AcademicScreen extends StatefulWidget {
-  const AcademicScreen({super.key});
+class AccadamicParents extends StatefulWidget {
+  const AccadamicParents({super.key});
 
   @override
-  State<AcademicScreen> createState() => _AcademicScreenState();
+  State<AccadamicParents> createState() => _AccadamicParentsState();
 }
 
-class _AcademicScreenState extends State<AcademicScreen>
+class _AccadamicParentsState extends State<AccadamicParents>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int selectedTabIndex = 0;
-  String selectedClassFilter = "All Classes";
-  String selectedAssignmentFilter = "All Classes";
 
   /// Dummy Notes Data
   final List<Map<String, dynamic>> notesList = [
@@ -27,6 +23,7 @@ class _AcademicScreenState extends State<AcademicScreen>
       "title": "Chapter 1 Algebra Notes",
       "subject": "Mathematics",
       "date": "14 May 2026",
+      "teacher": "Amir jamal",
     },
     {
       "class": "9th",
@@ -34,6 +31,7 @@ class _AcademicScreenState extends State<AcademicScreen>
       "title": "Physics Motion Notes",
       "subject": "Physics",
       "date": "12 May 2026",
+      "teacher": "Fahad",
     },
     {
       "class": "11th",
@@ -41,6 +39,7 @@ class _AcademicScreenState extends State<AcademicScreen>
       "title": "English Grammar Notes",
       "subject": "English",
       "date": "10 May 2026",
+      "teacher": "kinza Tabassam",
     },
   ];
 
@@ -91,36 +90,9 @@ class _AcademicScreenState extends State<AcademicScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryColor,
-
-        onPressed: () {
-          if (selectedTabIndex == 0) {
-            print(":::print00");
-            // NOTES TAB
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CreateNotes()),
-            );
-          } else if (selectedTabIndex == 1) {
-            print(":::print11");
-            // ASSIGNMENT TAB
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CreateAssignments()),
-            );
-          }
-        },
-
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
-
       body: Column(
         children: [
-          /// HEADER
           _buildHeader(),
-
           SizedBox(height: 14.h),
 
           /// TABS
@@ -187,14 +159,11 @@ class _AcademicScreenState extends State<AcademicScreen>
               ],
             ),
           ),
-       
-       
         ],
       ),
     );
   }
 
-  /// HEADER
   Widget _buildHeader() {
     return Container(
       width: double.infinity,
@@ -271,91 +240,43 @@ class _AcademicScreenState extends State<AcademicScreen>
 
           /// SUBTITLE
           const Text(
-            'Pakistan International Public School',
-            style: TextStyle(color: Color(0xAAFFFFFF), fontSize: 12),
+            'Grade 12--Syeda Humna Naqvi',
+            style: TextStyle(color: whiteColor, fontSize: 12),
           ),
         ],
       ),
     );
   }
 
+
+
   /// NOTES TAB
   Widget _buildNotesTab() {
-    List<String> listClasses = notesList
-        .map((data) => data["class"] as String)
-        .toSet()
-        .toList();
-
-    List<String> data = ["All Classes", ...listClasses];
-
-    /// FILTER NOTES
-    final filteredNotes = selectedClassFilter == "All Classes"
-        ? notesList
-        : notesList
-              .where((note) => note["class"] == selectedClassFilter)
-              .toList();
-
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         /// FILTER TABS
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-
-            child: Row(
-              children: [
-                ...List.generate(data.length, (index) {
-                  final viewData = data[index];
-
-                  final isSelected = selectedClassFilter == viewData;
-
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedClassFilter = viewData;
-                      });
-                    },
-
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-
-                        color: isSelected ? primaryColor : Colors.grey.shade300,
-                      ),
-
-                      child: Text(
-                        viewData,
-                        style: GoogleFonts.poppins(
-                          color: isSelected ? whiteColor : Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ],
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Text(
+            "Recent Notes",
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w600,
+              color: kTextMuted,
             ),
           ),
         ),
+        SizedBox(height: 10.h),
 
         /// LIST
         Expanded(
           child: ListView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
 
-            itemCount: filteredNotes.length,
+            itemCount: notesList.length,
 
             itemBuilder: (context, index) {
-              final note = filteredNotes[index];
+              final note = notesList[index];
 
               return Container(
                 margin: EdgeInsets.only(bottom: 14.h),
@@ -368,9 +289,9 @@ class _AcademicScreenState extends State<AcademicScreen>
 
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: primaryColor,
                       blurRadius: 8,
-                      offset: const Offset(0, 4),
+                      offset: const Offset(0, 8),
                     ),
                   ],
                 ),
@@ -384,6 +305,9 @@ class _AcademicScreenState extends State<AcademicScreen>
                       decoration: BoxDecoration(
                         color: primaryColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(14.r),
+                        border: Border.all(
+                          color: primaryColor.withOpacity(0.3),
+                        ),
                       ),
 
                       child: const Icon(
@@ -410,12 +334,35 @@ class _AcademicScreenState extends State<AcademicScreen>
 
                           SizedBox(height: 4.h),
 
-                          Text(
-                            note['subject'],
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
-                              fontSize: 13.sp,
-                            ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                note['subject'],
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontSize: 13.sp,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 6.w),
+                                child: Text(
+                                  "•",
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontSize: 16.sp,
+                                    height: 1,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                note['teacher'],
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontSize: 13.sp,
+                                ),
+                              ),
+                            ],
                           ),
 
                           SizedBox(height: 4.h),
@@ -438,6 +385,7 @@ class _AcademicScreenState extends State<AcademicScreen>
                       decoration: BoxDecoration(
                         color: Colors.blue.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(color: blueColor.withOpacity(0.3)),
                       ),
 
                       child: const Icon(Icons.download, color: Colors.blue),
@@ -454,79 +402,28 @@ class _AcademicScreenState extends State<AcademicScreen>
 
   /// ASSIGNMENT TAB
   Widget _buildAssignmentTab() {
-    List<String> listClasses = assignmentList
-        .map((data) => data["class"] as String)
-        .toSet()
-        .toList();
-
-    List<String> data = ["All Classes", ...listClasses];
-
-    /// FILTER NOTES
-    final filteredNotes = selectedAssignmentFilter == "All Classes"
-        ? assignmentList
-        : assignmentList
-              .where((note) => note["class"] == selectedAssignmentFilter)
-              .toList();
     return Column(
       crossAxisAlignment: .start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-
-            child: Row(
-              mainAxisAlignment: .start,
-              children: [
-                ...List.generate(data.length, (index) {
-                  final viewData = data[index];
-
-                  final isSelected = selectedAssignmentFilter == viewData;
-
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedAssignmentFilter = viewData;
-                      });
-                    },
-
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-
-                        color: isSelected ? primaryColor : Colors.grey.shade300,
-                      ),
-
-                      child: Text(
-                        viewData,
-                        style: GoogleFonts.poppins(
-                          color: isSelected ? whiteColor : Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ],
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Text(
+            "Recent Assignments",
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w600,
+              color: kTextMuted,
             ),
           ),
         ),
+        SizedBox(height: 10.h),
         Expanded(
           child: ListView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
 
-            itemCount: filteredNotes.length,
+            itemCount: assignmentList.length,
 
             itemBuilder: (context, index) {
-              final assignment = filteredNotes[index];
+              final assignment = assignmentList[index];
 
               return Container(
                 margin: EdgeInsets.only(bottom: 14.h),
@@ -539,9 +436,9 @@ class _AcademicScreenState extends State<AcademicScreen>
 
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: primaryColor,
                       blurRadius: 8,
-                      offset: const Offset(0, 4),
+                      offset: const Offset(0, 8),
                     ),
                   ],
                 ),
@@ -555,6 +452,9 @@ class _AcademicScreenState extends State<AcademicScreen>
                       decoration: BoxDecoration(
                         color: Colors.orange.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(14.r),
+                        border: Border.all(
+                          color: Colors.orange.withOpacity(0.2),
+                        ),
                       ),
 
                       child: const Icon(Icons.assignment, color: Colors.orange),
@@ -606,6 +506,9 @@ class _AcademicScreenState extends State<AcademicScreen>
                       decoration: BoxDecoration(
                         color: Colors.green.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                          color: primaryColor.withOpacity(0.1),
+                        ),
                       ),
 
                       child: const Icon(Icons.visibility, color: Colors.green),
@@ -619,6 +522,4 @@ class _AcademicScreenState extends State<AcademicScreen>
       ],
     );
   }
-
-
 }

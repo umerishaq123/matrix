@@ -15,6 +15,7 @@ import 'package:matrix/core/widgets/custom_text_form_field_widget.dart';
 import 'package:matrix/core/widgets/email_validation.dart';
 import 'package:matrix/views/admin/dashboard.dart';
 import 'package:matrix/views/authentications/forgot_password_screen.dart';
+import 'package:matrix/views/parents/bottom_nav_bar_parents.dart';
 import 'package:matrix/views/teacher/bottom_nav_bar_teacher.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -361,44 +362,40 @@ class _SignupScreenState extends State<SignupScreen> {
             CustomButtonWidget(
               color: primaryColor,
               title: "Sign In",
-           onTap: () async {
-  if (_emailSignInController.text.isEmpty) {
-    return showCustomSnackBar(
-      context: context,
-      message: "Email is required",
-      status: StateType.failure,
-    );
-  } else if (_passwordSignInController.text.isEmpty) {
-    return showCustomSnackBar(
-      context: context,
-      message: "Password is required",
-      status: StateType.failure,
-    );
-  } else {
-    final role = await AppPreferences.getRole();
+              onTap: () async {
+                if (_emailSignInController.text.isEmpty) {
+                  return showCustomSnackBar(
+                    context: context,
+                    message: "Email is required",
+                    status: StateType.failure,
+                  );
+                } else if (_passwordSignInController.text.isEmpty) {
+                  return showCustomSnackBar(
+                    context: context,
+                    message: "Password is required",
+                    status: StateType.failure,
+                  );
+                } else {
+                  final role = await AppPreferences.getRole();
 
-    print("selected role is here: $role");
-    print("admin role: ${RoleEnumType.admin.name}");
+                  print("selected role is here: $role");
+                  print("admin role: ${RoleEnumType.admin.name}");
 
-    if (role == RoleEnumType.admin) {
-      Get.to(() => AppDashboard());
-    } else if (role == RoleEnumType.teacher) {
-      Get.to(() => BottomNavBarTeacher());
-    } else if (role == RoleEnumType.parent) {
-      showCustomSnackBar(
-        context: context,
-        message: "Parent flow not implemented yet",
-        status: StateType.failure,
-      );
-    } else {
-      showCustomSnackBar(
-        context: context,
-        message: "Invalid user role",
-        status: StateType.failure,
-      );
-    }
-  }
-}
+                  if (role == RoleEnumType.admin) {
+                    Get.to(() => AppDashboard());
+                  } else if (role == RoleEnumType.teacher) {
+                    Get.to(() => BottomNavBarTeacher());
+                  } else if (role == RoleEnumType.parent) {
+                        Get.to(() => BottomNavBarParents());
+                  } else {
+                    showCustomSnackBar(
+                      context: context,
+                      message: "Invalid user role",
+                      status: StateType.failure,
+                    );
+                  }
+                }
+              },
             ),
             SizedBox(height: 10),
             Center(

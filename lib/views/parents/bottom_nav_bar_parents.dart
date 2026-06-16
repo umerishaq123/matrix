@@ -1,0 +1,169 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:get/get.dart';
+import 'package:matrix/controlllers/parents/bottom_nav_bar_parents.dart';
+
+import 'package:matrix/controlllers/teacher/bottom_nav_bar_teacher.dart';
+import 'package:matrix/core/constants/colors.dart';
+
+class BottomNavBarParents extends StatelessWidget {
+  BottomNavBarParents({super.key});
+
+  final BottomNavControllerParents controller = Get.put(
+    BottomNavControllerParents(),
+  );
+  final PageStorageBucket bucket = PageStorageBucket();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+
+      body: Obx(
+        () => PageStorage(
+          bucket: bucket,
+          child: controller.screens[controller.currentIndex.value],
+        ),
+      ),
+
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          decoration: ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: MediaQuery.of(context).size.width / 50,
+                color: whiteColor,
+              ),
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+          child: Container(
+            decoration: ShapeDecoration(
+              color: primaryColor,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  width: MediaQuery.of(context).size.width / 80,
+                  color: lightGreenColor,
+                ),
+                borderRadius: BorderRadius.circular(50),
+              ),
+            ),
+            child: Obx(
+              () => FloatingActionButton(
+                backgroundColor: blueColor,
+                shape: const CircleBorder(),
+                child: Icon(
+                  Icons.dashboard,
+                  color: controller.currentIndex.value == 1
+                      ? lightGreenColor // When index 2 is selected
+                      : secondaryColor, // Otherwise
+                ),
+                onPressed: () {
+                  controller.changeTab(1);
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+      bottomNavigationBar: BottomAppBar(
+        height: MediaQuery.of(context).size.height / 11.5,
+        color: primaryColor,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.sp),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              /// LEFT SIDE
+              Row(
+                children: [
+                  navItem(
+                    context,
+                    icon: Icons.school,
+                    // iconPath: AppConstantsIconPath.jobIconPath,
+                    label: "Accademic",
+                    index: 0,
+                    onTap: () {
+                      controller.changeTab(0);
+                    },
+                  ),
+                ],
+              ),
+
+              /// RIGHT SIDE
+              Row(
+                children: [
+                  //       navItem(
+                  //         context,
+                  //          icon: Icons.menu_book,
+                  //         label: "Academics",
+                  //         index: 3,
+                  //         onTap: () {
+                  //           controller.changeTab(3);
+                  //         },
+                  //       ),
+                  //       navItem(
+                  //         context,
+                  //         icon: Icons.person,
+                  //         label: "Profile",
+                  //         index: 4,
+                  //         onTap: () {
+                  //           controller.changeTab(4);
+                  //         },
+                  //       ),
+                  navItem(
+                    context,
+                    icon: Icons.person,
+                    label: "Profile",
+                    index: 2,
+                    onTap: () {
+                      controller.changeTab(2);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Reusable Navigation Item
+  Widget navItem(
+    BuildContext context, {
+    String? iconPath,
+    IconData? icon,
+    required String label,
+    required int index,
+    required VoidCallback onTap,
+  }) {
+    return Obx(() {
+      bool isSelected = controller.currentIndex.value == index;
+
+      return MaterialButton(
+        minWidth: 30,
+        onPressed: onTap,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: isSelected ? lightGreenColor : secondaryColor),
+
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 10,
+                color: isSelected ? lightGreenColor : secondaryColor,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+}

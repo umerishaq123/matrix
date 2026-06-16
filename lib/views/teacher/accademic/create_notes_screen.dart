@@ -119,7 +119,7 @@ class _CreateNotesState extends State<CreateNotes> {
 
                   CustomButtonWidget(
                     color: primaryColor,
-                    title: "Create Teacher",
+                    title: "Create Notes",
                     onTap: () {},
                   ),
                   SizedBox(height: 20.h),
