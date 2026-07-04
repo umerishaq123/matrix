@@ -12,6 +12,7 @@ import 'package:matrix/models/admin/parents_meatings_model.dart';
 import 'package:matrix/views/admin/add_annoucement_screen.dart';
 import 'package:matrix/views/admin/drawer.dart';
 import 'package:matrix/views/admin/home/add_date_sheat_timetable.dart';
+import 'package:matrix/views/parents/parents_home_dashboard/show_timetable_screen.dart';
 import 'package:matrix/views/student/create_student.dart';
 import 'package:matrix/views/teacher/create_teacher.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -151,7 +152,7 @@ class _ParentsDashbaordState extends State<ParentsDashbaord> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Get.to(CreateTeacher());
+                        Get.to(ShowTimeTableScreen(title: "", pdfPath: timetablePdf,));
                       },
                       child: quickActionWidget(Icons.school, "Time Table"),
                     ),

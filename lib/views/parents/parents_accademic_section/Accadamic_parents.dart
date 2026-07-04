@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/route_manager.dart';
+import 'package:get/state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:matrix/core/constants/colors.dart';
+import 'package:matrix/core/constants/images.dart';
+import 'package:matrix/views/parents/parents_accademic_section/pdf_viewer_screen_assignment.dart';
+import 'package:matrix/views/parents/parents_accademic_section/pdf_viewer_screen_notes.dart';
 
 class AccadamicParents extends StatefulWidget {
   const AccadamicParents({super.key});
@@ -24,6 +29,7 @@ class _AccadamicParentsState extends State<AccadamicParents>
       "subject": "Mathematics",
       "date": "14 May 2026",
       "teacher": "Amir jamal",
+      "notesPdf": physicsPdf
     },
     {
       "class": "9th",
@@ -32,6 +38,7 @@ class _AccadamicParentsState extends State<AccadamicParents>
       "subject": "Physics",
       "date": "12 May 2026",
       "teacher": "Fahad",
+       "notesPdf": physicsPdf
     },
     {
       "class": "11th",
@@ -40,6 +47,7 @@ class _AccadamicParentsState extends State<AccadamicParents>
       "subject": "English",
       "date": "10 May 2026",
       "teacher": "kinza Tabassam",
+       "notesPdf": englishPdf
     },
   ];
 
@@ -51,6 +59,7 @@ class _AccadamicParentsState extends State<AccadamicParents>
       "title": "Algebra Homework",
       "subject": "Mathematics",
       "deadline": "20 May 2026",
+      "assignmentPdf": aljebraAssignmentPdf
     },
     {
       "class": "10th",
@@ -58,6 +67,7 @@ class _AccadamicParentsState extends State<AccadamicParents>
       "title": "Physics Numerical",
       "subject": "Physics",
       "deadline": "18 May 2026",
+      "assignmentPdf":physicsAssingmentPdf
     },
     {
       "class": "9th",
@@ -65,6 +75,7 @@ class _AccadamicParentsState extends State<AccadamicParents>
       "title": "Essay Writing",
       "subject": "English",
       "deadline": "22 May 2026",
+      "assignmentPdf":essayWrititngAssingmentPdf
     },
   ];
 
@@ -278,119 +289,124 @@ class _AccadamicParentsState extends State<AccadamicParents>
             itemBuilder: (context, index) {
               final note = notesList[index];
 
-              return Container(
-                margin: EdgeInsets.only(bottom: 14.h),
-
-                padding: EdgeInsets.all(16.sp),
-
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(18.r),
-
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryColor,
-                      blurRadius: 8,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-
-                child: Row(
-                  children: [
-                    /// ICON
-                    Container(
-                      padding: EdgeInsets.all(12.sp),
-
-                      decoration: BoxDecoration(
-                        color: primaryColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(14.r),
-                        border: Border.all(
-                          color: primaryColor.withOpacity(0.3),
+              return GestureDetector(
+                onTap: (){
+                  Get.to(PdfViewerScreen(title:"${ note['title']}",pdfPath:note["notesPdf"] ,));
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 14.h),
+                
+                  padding: EdgeInsets.all(16.sp),
+                
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18.r),
+                
+                    boxShadow: [
+                      BoxShadow(
+                        color: primaryColor,
+                        blurRadius: 8,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                
+                  child: Row(
+                    children: [
+                      /// ICON
+                      Container(
+                        padding: EdgeInsets.all(12.sp),
+                
+                        decoration: BoxDecoration(
+                          color: primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(14.r),
+                          border: Border.all(
+                            color: primaryColor.withOpacity(0.3),
+                          ),
+                        ),
+                
+                        child: const Icon(
+                          Icons.menu_book_rounded,
+                          color: primaryColor,
                         ),
                       ),
-
-                      child: const Icon(
-                        Icons.menu_book_rounded,
-                        color: primaryColor,
-                      ),
-                    ),
-
-                    SizedBox(width: 14.w),
-
-                    /// TEXT
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-
-                        children: [
-                          Text(
-                            note['title'],
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-
-                          SizedBox(height: 4.h),
-
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                note['subject'],
-                                style: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontSize: 13.sp,
-                                ),
+                
+                      SizedBox(width: 14.w),
+                
+                      /// TEXT
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                
+                          children: [
+                            Text(
+                              note['title'],
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
                               ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 6.w),
-                                child: Text(
-                                  "•",
+                            ),
+                
+                            SizedBox(height: 4.h),
+                
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  note['subject'],
                                   style: TextStyle(
                                     color: Colors.grey.shade600,
-                                    fontSize: 16.sp,
-                                    height: 1,
+                                    fontSize: 13.sp,
                                   ),
                                 ),
-                              ),
-                              Text(
-                                note['teacher'],
-                                style: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontSize: 13.sp,
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 6.w),
+                                  child: Text(
+                                    "•",
+                                    style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: 16.sp,
+                                      height: 1,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-
-                          SizedBox(height: 4.h),
-
-                          Text(
-                            note['date'],
-                            style: TextStyle(
-                              color: Colors.grey.shade500,
-                              fontSize: 12.sp,
+                                Text(
+                                  note['teacher'],
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontSize: 13.sp,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                
+                            SizedBox(height: 4.h),
+                
+                            Text(
+                              note['date'],
+                              style: TextStyle(
+                                color: Colors.grey.shade500,
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-
-                    /// DOWNLOAD BUTTON
-                    Container(
-                      padding: EdgeInsets.all(8.sp),
-
-                      decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(color: blueColor.withOpacity(0.3)),
+                
+                      /// DOWNLOAD BUTTON
+                      Container(
+                        padding: EdgeInsets.all(8.sp),
+                
+                        decoration: BoxDecoration(
+                          color: Colors.blue.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(color: blueColor.withOpacity(0.3)),
+                        ),
+                
+                        child: const Icon(Icons.download, color: Colors.blue),
                       ),
-
-                      child: const Icon(Icons.download, color: Colors.blue),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
@@ -425,95 +441,100 @@ class _AccadamicParentsState extends State<AccadamicParents>
             itemBuilder: (context, index) {
               final assignment = assignmentList[index];
 
-              return Container(
-                margin: EdgeInsets.only(bottom: 14.h),
-
-                padding: EdgeInsets.all(16.sp),
-
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(18.r),
-
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryColor,
-                      blurRadius: 8,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-
-                child: Row(
-                  children: [
-                    /// ICON
-                    Container(
-                      padding: EdgeInsets.all(12.sp),
-
-                      decoration: BoxDecoration(
-                        color: Colors.orange.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(14.r),
-                        border: Border.all(
-                          color: Colors.orange.withOpacity(0.2),
+              return GestureDetector(
+                onTap: (){
+                  Get.to(PdfViewerScreenAssignment(title: assignment["title"], pdfPath: assignment["assignmentPdf"],));
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 14.h),
+                
+                  padding: EdgeInsets.all(16.sp),
+                
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18.r),
+                
+                    boxShadow: [
+                      BoxShadow(
+                        color: primaryColor,
+                        blurRadius: 8,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                
+                  child: Row(
+                    children: [
+                      /// ICON
+                      Container(
+                        padding: EdgeInsets.all(12.sp),
+                
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(14.r),
+                          border: Border.all(
+                            color: Colors.orange.withOpacity(0.2),
+                          ),
+                        ),
+                
+                        child: const Icon(Icons.assignment, color: Colors.orange),
+                      ),
+                
+                      SizedBox(width: 14.w),
+                
+                      /// TEXT
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                
+                          children: [
+                            Text(
+                              assignment['title'],
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                
+                            SizedBox(height: 4.h),
+                
+                            Text(
+                              assignment['subject'],
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontSize: 13.sp,
+                              ),
+                            ),
+                
+                            SizedBox(height: 4.h),
+                
+                            Text(
+                              "Deadline: ${assignment['deadline']}",
+                              style: TextStyle(
+                                color: Colors.red.shade400,
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-
-                      child: const Icon(Icons.assignment, color: Colors.orange),
-                    ),
-
-                    SizedBox(width: 14.w),
-
-                    /// TEXT
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-
-                        children: [
-                          Text(
-                            assignment['title'],
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
+                
+                      /// VIEW BUTTON
+                      Container(
+                        padding: EdgeInsets.all(8.sp),
+                
+                        decoration: BoxDecoration(
+                          color: Colors.green.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(
+                            color: primaryColor.withOpacity(0.1),
                           ),
-
-                          SizedBox(height: 4.h),
-
-                          Text(
-                            assignment['subject'],
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
-                              fontSize: 13.sp,
-                            ),
-                          ),
-
-                          SizedBox(height: 4.h),
-
-                          Text(
-                            "Deadline: ${assignment['deadline']}",
-                            style: TextStyle(
-                              color: Colors.red.shade400,
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    /// VIEW BUTTON
-                    Container(
-                      padding: EdgeInsets.all(8.sp),
-
-                      decoration: BoxDecoration(
-                        color: Colors.green.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(
-                          color: primaryColor.withOpacity(0.1),
                         ),
+                
+                        child: const Icon(Icons.visibility, color: Colors.green),
                       ),
-
-                      child: const Icon(Icons.visibility, color: Colors.green),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
